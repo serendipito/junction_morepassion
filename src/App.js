@@ -1,18 +1,14 @@
 import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
+import { useState, useCallback } from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
+import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
+import { CardMedia } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-
-import { Spotify } from 'react-spotify-embed';
 
 import SearchBar from "./SearchBar"
 
@@ -36,15 +32,17 @@ const defaultTheme = createTheme();
 export default function PlaySong() {
 
 
-  const [showSong, setShowSong] = React.useState(false);
+  const [showSong, setShowSong] = useState(false);
+  const [selectedSong, setSelectedSong] = useState({});
 
+  const handleChange = (_e, newValue) => {
+    setSelectedSong(newValue);
+    setShowSong(false);
+  }
 
-  const handleSearch =  React.useCallback(
+  const handleSearch =  useCallback(
     (e) => {
       e.preventDefault();
-
-      // TODO: actually this will involve an api request to the backend and some data passed from it
-      // but for the time being we just hide the one song we are embedding
       setShowSong(true);
     },
     [showSong]
@@ -73,13 +71,13 @@ export default function PlaySong() {
             alt="More passion logo."
             src={logo}
           />
-                <Box
-                style={{paddingLeft: "20px", paddingRight: "20px", marginTop: "20px", marginBottom: "20px"}}>
-          <p>Type (or select) a song you like and we will find a matching exercise for it!</p>
-          </Box>
+                {/* <Box
+                style={{paddingLeft: "20px", paddingRight: "20px", marginTop: "10px", marginBottom: "10px"}}>
+          <p>Type (or select) a song you like and we will generate a matching exercise for it!</p>
+          </Box> */}
           <Box component="form" noValidate sx={{ mt: 1 }}>
 
-            <SearchBar />
+            <SearchBar onChange={handleChange} />
 
             <Button
               type="submit"
@@ -89,16 +87,20 @@ export default function PlaySong() {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
-              style={{marginBottom: "20px"}}
+              style={{marginBottom: "20px", marginTop: "10px"}}
             >
-              Search
+              Generate an exercise
             </Button>
             </Box>
 
-            <Grid container style={{visibility: showSong ? "visible" : "hidden"}}>
-              <Spotify wide link="https://open.spotify.com/track/5ihDGnhQgMA0F0tk9fNLlA?si=4472348a63dd4f83" />
+            <Grid container style={{display: showSong && selectedSong && Object.keys(selectedSong).length > 0 ? "block" : "none"}}>
+            <CardMedia
+            component='video'
+            image={showSong && selectedSong && Object.keys(selectedSong).length > 0 ? `/videos/${selectedSong.media}` : ""}
+            controls
+        />
+              {/* <Spotify wide link="https://open.spotify.com/track/5ihDGnhQgMA0F0tk9fNLlA?si=4472348a63dd4f83" /> */}
             </Grid>
-
         </Box>
         <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>

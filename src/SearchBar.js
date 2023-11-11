@@ -2,20 +2,17 @@ import * as React from 'react';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 
-export default function SearchBar() {
+import SongVideos from "./SongVideos"
+
+export default function SearchBar(props) {
   return (
     <Autocomplete
       disablePortal
-      id="combo-box-demo"
-      options={top100Films}
+      id="combo-box-autocomplete"
+      options={SongVideos}
       sx={{ width: 300 }}
       renderInput={(params) => <TextField {...params} label="Your favourite song…" />}
+      onChange={props.onChange}
     />
   );
 }
-
-// Top 100 films as rated by IMDb users. http://www.imdb.com/chart/top
-const top100Films = [
-  { label: 'Thought it Was a Drought', artist: 'none' },
-  { label: 'Did not think it was a drought', artist: 'nonez' },
-];
