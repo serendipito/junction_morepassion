@@ -65,6 +65,7 @@ export default function PlaySong() {
             sx={{
               // height: 284,
               width: 300,
+              marginBottom: "12px"
               // maxHeight: { xs: 233, md: 167 },
               // maxWidth: { xs: 350, md: 250 },
             }}
@@ -89,7 +90,7 @@ export default function PlaySong() {
               sx={{ mt: 3, mb: 2 }}
               style={{marginBottom: "20px", marginTop: "10px"}}
             >
-              Generate an exercise
+              Generate a workout
             </Button>
             </Box>
 
